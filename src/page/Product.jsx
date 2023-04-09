@@ -1,20 +1,18 @@
 import styled from '@emotion/styled';
-import { Box, IconButton } from '@mui/material'
+import { Box } from '@mui/material'
 import Carousel from 'react-material-ui-carousel'
-import React from 'react'
+import React, { useRef } from 'react'
 import { ProductDescription } from '../components/ProductDescription';
 import { theme } from '../theme/theme';
+import { PopUpCarousel } from '../components/PopUpCarousel';
+import { IMAGES, thumbnail_images } from '../data/data';
 
 export const Product = ({smallScreen, mediumScreen}) => {
 
     const [index, setIndex] = React.useState(0);
     const [quantity, setQuantity] = React.useState(1);
-
-    
-  const IMAGES = ['./assets/image-product-1.jpg','./assets/image-product-2.jpg',
-  './assets/image-product-3.jpg','./assets/image-product-4.jpg'];
-
-  
+    const [open, setOpen] = React.useState(false);
+    const [activeImageId, setActiveImageId] = React.useState(0);
 
 //Styled Components
 const Container = styled(Box)  ({
@@ -56,7 +54,7 @@ const ImageContainer = styled(Box) ({
 
 const ImageSlider = styled(Box)({
   display:smallScreen ? 'block' : mediumScreen ? 'block' : 'none',
-  width:smallScreen ? '100%' : mediumScreen ? '75%' : '',
+  width:mediumScreen ? '100%' : '',
   height:'320px',
   objectFit:'cover',
 });
@@ -66,14 +64,35 @@ const CustomCarousel = styled(Carousel) ({
   width:'100%',
 })
 
+
+const showActiveImage = (event) => {
+  const activeSrc = event.target.src;
+  const activeId = event.target.id;
+  setActiveImageId(activeId);
+  const currentIndex = thumbnail_images.indexOf("."+activeSrc.substr(21));
+  setIndex(currentIndex);
+}
+
+const handleModalClose = () => {
+  setOpen(false);
+}
+
+const handleModalOpen = ()=> {
+ setOpen(true);
+}
+
+React.useEffect(()=>{
+  const currentImage = document.getElementById(thumbnail_images[activeImageId]);
+  currentImage.classList.add('active-img');
+},[]);
+
   return (
     <Container>
         <ImageContainer 
         id='product-main-images'>
-          {/* <NavigateImgBtnPrev onClick={()=>{showProductSlideImages('previous')}}>
-            <Box component='img' src='./assets/icon-previous.svg' width='8px' height='12px'/>
-          </NavigateImgBtnPrev> */}
-          <MainImage component='img' src={IMAGES[index]}/>
+          <MainImage component='img' src={IMAGES[index]} onClick={handleModalOpen}/>
+          <PopUpCarousel open={open} handleModalClose={handleModalClose} activeImageId={activeImageId} setActiveImageId={setActiveImageId}
+          index={index} setIndex={setIndex} showActiveImage={showActiveImage}/>
           <CustomCarousel NextIcon={<img src='./assets/icon-next.svg' width='8px' height='10px'/>}
                     PrevIcon={<img src='./assets/icon-previous.svg' widht='8px' height='10px'/>}
                     indicators={false}
@@ -94,15 +113,16 @@ const CustomCarousel = styled(Carousel) ({
                           )
                           
                         })}
-                    </CustomCarousel>
-          {/* <NavigateImgBtnNext onClick={()=>{showProductSlideImages('next')}}>
-          <Box component='img' src='./assets/icon-next.svg' width='8px' height='12px'/>
-          </NavigateImgBtnNext> */}
+          </CustomCarousel>
           <Box display={mediumScreen ? 'none': 'flex'} justifyContent='space-between' alignItems='center'>
-            <ThumbnailImage component='img' src='./assets/image-product-1-thumbnail.jpg' />
-            <ThumbnailImage component='img' src='./assets/image-product-2-thumbnail.jpg' />
-            <ThumbnailImage component='img' src='./assets/image-product-3-thumbnail.jpg' />
-            <ThumbnailImage component='img' src='./assets/image-product-4-thumbnail.jpg' />
+            {thumbnail_images.map((img)=> {
+              return (
+                <ThumbnailImage component='img' src={img} 
+                key={img} id={img} 
+                className={activeImageId === img ? 'active-img' : ''}
+                onClick={(e)=>{showActiveImage(e)}}/>
+              )
+            })}
           </Box>
         </ImageContainer>
 
