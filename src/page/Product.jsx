@@ -3,18 +3,17 @@ import { Box } from '@mui/material'
 import Carousel from 'react-material-ui-carousel'
 import React, { useRef } from 'react'
 import { ProductDescription } from '../components/ProductDescription';
-import { theme } from '../theme/theme';
 import { PopUpCarousel } from '../components/PopUpCarousel';
 import { IMAGES, thumbnail_images } from '../data/data';
 
-export const Product = ({smallScreen, mediumScreen}) => {
+export const Product = ({smallScreen, mediumScreen,quantity,setQuantity, setAddedToCart}) => {
 
-    const [index, setIndex] = React.useState(0);
-    const [quantity, setQuantity] = React.useState(1);
+    const [index, setIndex] = React.useState(0); 
+   
     const [open, setOpen] = React.useState(false);
     const [activeImageId, setActiveImageId] = React.useState(0);
 
-//Styled Components
+//Styled Component for UI
 const Container = styled(Box)  ({
     
       width:'100%',
@@ -59,12 +58,12 @@ const ImageSlider = styled(Box)({
   objectFit:'cover',
 });
 
-
 const CustomCarousel = styled(Carousel) ({
   width:'100%',
 })
 
 
+//Displaying Clicked Active Image
 const showActiveImage = (event) => {
   const activeSrc = event.target.src;
   const activeId = event.target.id;
@@ -81,6 +80,21 @@ const handleModalOpen = ()=> {
  setOpen(true);
 }
 
+//Add to cart handler functions
+
+const productIncrement = () => {
+  setQuantity(quantity+1);
+}
+
+const productDecrement = () => {
+  setQuantity(quantity === 0 ? 0 : quantity-1);
+}
+
+const handleAddToCart = () => {
+  setAddedToCart(quantity);
+}
+
+//Adding border effect to active image
 React.useEffect(()=>{
   const currentImage = document.getElementById(thumbnail_images[activeImageId]);
   currentImage.classList.add('active-img');
@@ -129,7 +143,10 @@ React.useEffect(()=>{
         <ProductDescription 
         smallScreen={smallScreen} 
         mediumScreen={mediumScreen} 
-        quantity={quantity}/>
+        productIncrement={productIncrement}
+        productDecrement={productDecrement}
+        quantity={quantity}
+        handleAddToCart={handleAddToCart}/>
 
     </Container>
   )

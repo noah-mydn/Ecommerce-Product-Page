@@ -2,4 +2,15 @@
     border:2px solid hsl(26, 100%, 55%);
 }
 
+.hoverClass {
+    width:35px;
+    height:35px;
+    border-radius: 50%;
+    border:2px solid transparent;
+
+}
+
+.hoverClass:hover {
+    border-color: hsl(26, 100%, 55%);
+}
 

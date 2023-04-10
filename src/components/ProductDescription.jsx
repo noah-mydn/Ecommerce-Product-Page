@@ -1,8 +1,24 @@
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import { theme } from '../theme/theme'
+import styled from '@emotion/styled'
 
-export const ProductDescription = ({smallScreen,mediumScreen,quantity}) => {
+export const ProductDescription = ({smallScreen,mediumScreen,quantity,productIncrement,productDecrement,handleAddToCart}) => {
+  
+  //Styled Button for AddToCart btn
+  const AddToCart = styled(Button)({
+    borderRadius: 8,
+    background:theme.palette.primary.main,
+    color:'white',
+    width:mediumScreen ? '100%' : 'auto',
+    fontWeight:'bolder',
+    textTransform:'none',
+    textAlign:'center',
+    padding:'0.8em 3.5em',
+    '&:hover': {
+      background:theme.palette.primary.main, }  
+  });
+  
   return (
     <Box id='product-description' flexDirection='column'
         sx={{width:mediumScreen ? '85%' : '47%',
@@ -72,25 +88,16 @@ export const ProductDescription = ({smallScreen,mediumScreen,quantity}) => {
               <Box display='flex' justifyContent='space-between' alignItems='center' mt={2} mr={mediumScreen ? 0 :3} 
               sx={{padding:'0.9em'}}
               bgcolor={theme.palette.text.main} width={mediumScreen ? '90%' :'20%'} borderRadius={2}>
-                <Box component='img' src='./assets/icon-minus.svg' width='10px' height='3px'/>
+                <Box component='img' src='./assets/icon-minus.svg' width='10px' height='3px' onClick={productDecrement}/>
                 <Typography component='body2' variant='body2' fontWeight='bolder '>{quantity}</Typography>
-                <Box component='img' src='./assets/icon-plus.svg' width='10px' height='10px'/>
+                <Box component='img' src='./assets/icon-plus.svg' width='10px' height='10px' onClick={productIncrement}/>
               </Box> 
               <Box mt={2} width={mediumScreen ? '100%' : 'auto'}>
-                <Button
-                sx={{
-                  borderRadius: 2,
-                  background:theme.palette.primary.main,
-                  color:'white',
-                  width:mediumScreen ? '100%' : 'auto',
-                  fontWeight:'bolder',
-                  textTransform:'none',
-                  textAlign:'center',
-                  padding:'0.8em 3.5em'
-                }}>
-                  <Box component='img' src='./assets/icon-cart-white.svg' width='15px' height='15px' mr={1}/>
+                <AddToCart onClick={handleAddToCart}>
+                  <Box component='img' src='./assets/icon-cart-white.svg' width='15px' height='15px' mr={1}
+                  />
                   Add to cart
-                </Button>
+                </AddToCart>
               </Box>
             </Box>
         </Box>

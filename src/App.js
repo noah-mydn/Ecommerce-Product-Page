@@ -4,10 +4,16 @@ import './App.css';
 import { Navbar } from './components/Navbar';
 import { Product } from './page/Product';
 import { theme } from './theme/theme';
+import React from 'react';
 
 function App() {
 
-  const mediumScreen = useMediaQuery(theme.breakpoints.down('md'));
+  //AddToCart State
+  const [quantity, setQuantity] = React.useState(1);
+  const [addedToCart, setAddedToCart] = React.useState(null);
+
+  //ScreenSize verification
+  const mediumScreen = useMediaQuery(theme.breakpoints.down('md')); 
   const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const Container = styled(Box)({
@@ -19,12 +25,22 @@ function App() {
   })
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container minHeight='100vh'>
-        <Navbar mediumScreen={mediumScreen}/>
-        <Product smallScreen={smallScreen} mediumScreen={mediumScreen}/>
-      </Container>
-    </ThemeProvider>
+   
+      <ThemeProvider theme={theme}> {/*MUI Custom Theme */}
+        <Container minHeight='100vh'>
+          <Navbar mediumScreen={mediumScreen} 
+                  smallScreen={smallScreen} 
+                  quantity={quantity} 
+                  addedToCart={addedToCart}
+                  setAddedToCart={setAddedToCart}/>
+
+          <Product smallScreen={smallScreen} 
+                   mediumScreen={mediumScreen} 
+                   quantity={quantity} 
+                   setQuantity={setQuantity}
+                   setAddedToCart={setAddedToCart}/>
+        </Container>
+      </ThemeProvider>
   );
 }
 

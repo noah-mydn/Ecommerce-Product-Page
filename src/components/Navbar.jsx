@@ -1,26 +1,29 @@
 import styled from '@emotion/styled';
-import { Box, Divider, Drawer, IconButton, Link, List, ListItem, ListItemText, Typography } from '@mui/material'
+import { Badge, Box, Divider, Drawer, IconButton, Link, List, ListItem, ListItemText, Typography } from '@mui/material'
 import React from 'react'
 import { theme } from '../theme/theme';
+import { Cart } from './Cart';
 
 export const Navbar = (props) => {
 
-    const NavTabs = ['Collections','Men', 'Women', 'About', 'Contact'];
-    const [open, setOpen] = React.useState(false);
+    const NavTabs = ['Collections','Men', 'Women', 'About', 'Contact']; //NavTabs
+    const [open, setOpen] = React.useState(false);  //For Drawer component
+    const [anchorEl,setAnchorEl] = React.useState(null);   //For dialog
+    const [isOnHover,setIsOnHover] = React.useState(false); //For cartIcon onHover state
+    
     const {window} = props;
     const drawerWidth=220;
 
     const mediumScreen = props.mediumScreen;
 
-    //Styled Component
-
+    //Styled Navigation Component
     const NavLink = styled(Link)({
         textDecoration:'none',
         color:theme.palette.secondary.main,
         fontFamily:theme.typography.fontFamily,
         margin:'0 0.5em',
         position:'relative',
-        padding:'45px 10px',
+        padding:'40px 10px',
 
         '&:hover': {
             color:theme.palette.secondary.dark,
@@ -40,20 +43,37 @@ export const Navbar = (props) => {
 
     });
 
+    //Styled Navigation for Mobile View
     const MobileNavList = styled(List)({
         marginTop:'1.5em',
         width:'100%',
     });
 
+    //Styled Navigation Items for Mobile View
     const MobileNavListItem = styled(ListItem)({
         color:theme.palette.secondary.dark,
     });
 
+    //Navigation Drawer function
     const toggleDrawer = () => {
         setOpen(!open);
     }
 
+    //Cart Dialog
+    const handleOpenCart = (event) => {
+        setAnchorEl(event.currentTarget);
+        setIsOnHover(true);
+      };
+      
+    
+      const handleCloseCart = () => {
+        setAnchorEl(null);
+      };
+
+
+    
     const container = window !== undefined ? () => window().document.body : undefined;
+    const openCart = Boolean(anchorEl);
 
     const mobileNav = (
         <Box>
@@ -100,13 +120,40 @@ export const Navbar = (props) => {
                 </Box>
 
                 <Box display='flex' justifyContent='space-around' alignItems='center'>
-                    <IconButton sx={{margin:'0 5px'}}>
-                        <img src='./assets/icon-cart.svg'/>
+                {props.addedToCart ?
+                <Badge badgeContent={props.addedToCart} color="primary">
+                    <IconButton sx={{margin:'0 5px'}} onClick={handleOpenCart} 
+                    onMouseEnter={() => setIsOnHover(true)}
+                    onMouseLeave={() => setIsOnHover(false)}>
+                        {isOnHover ? <img src='./assets/icon-cart-black.svg'/> : 
+                                     <img src='./assets/icon-cart.svg'/>}
                     </IconButton>
-                    <IconButton sx={{margin:'0 5px'}}>
-                        <img src='./assets/image-avatar.png' width='35px' height='35px'/>
-                    </IconButton>
+                </Badge> :
+                <IconButton sx={{margin:'0 5px'}} onClick={handleOpenCart}
+                onMouseEnter={() => setIsOnHover(true)}
+                onMouseLeave={() => setIsOnHover(false)}>
+                    {isOnHover ? <img src='./assets/icon-cart-black.svg'/> : 
+                                     <img src='./assets/icon-cart.svg'/>}
+                </IconButton>
+                }   
+
+
+
+                    <Cart openCart={openCart} 
+                          anchorEl={anchorEl} 
+                          handleOpenCart={handleOpenCart} 
+                          handleCloseCart={handleCloseCart} 
+                          smallScreen={props.smallScreen} 
+                          addedToCart={props.addedToCart}
+                          setAddedToCart={props.setAddedToCart}/>
+
+            
+                        <Box component='img'
+                        mx={1} src='./assets/image-avatar.png' 
+                        className='hoverClass'/>
+                
                 </Box>
+                
 
         </Box>
         <Divider sx={{

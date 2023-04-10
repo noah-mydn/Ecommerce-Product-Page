@@ -1,7 +1,6 @@
-import { Popover, Backdrop, Box, Dialog, IconButton } from '@mui/material';
+import { Backdrop, Box, Dialog, IconButton } from '@mui/material';
 import { IMAGES, thumbnail_images } from '../data/data';
 import styled from '@emotion/styled';
-import Carousel from 'react-material-ui-carousel';
 import { theme } from '../theme/theme';
 import React from 'react';
 
@@ -14,7 +13,7 @@ export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImag
         "<img src='./assets/image-product-4-thumbnail.jpg'"
     ]
 
-    //Styled Component
+    //Styled Dialog
     const CustomDialog = styled(Dialog)({
         margin:'0 auto',
 
@@ -24,8 +23,8 @@ export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImag
         },
       });
 
-
-    const PopOverMainImage = styled(Box)({
+    //Styled Image in Large View inside Slider
+    const MainImage = styled(Box)({
         width:'50%',
         borderRadius:12,
         objectFit:'cover',
@@ -33,6 +32,7 @@ export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImag
 
       });
 
+    //Styled Thumbnail Image
       const ThumbnailImage = styled(Box)({
         width:'55px',
         height:'55px',
@@ -41,6 +41,7 @@ export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImag
     
       });
 
+      //Navigation Functions
       const PrevIconButton= styled(IconButton)({
         padding:'0.5em',
         position:'absolute',
@@ -77,6 +78,8 @@ export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImag
         setActiveImageId(thumbnail_images[newIndex]);
       };
 
+
+      //Adding border effect to active image
       React.useEffect(() => {
         const currentImage = document.getElementById(thumbnail_images[index]);
         currentImage.classList.add('active-img');
@@ -100,7 +103,7 @@ export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImag
             <PrevIconButton onClick={()=>{switchImage('prev')}}>
                 <Box component='img' src="./assets/icon-previous.svg" width='10px' height='12px'/>
             </PrevIconButton>
-            <PopOverMainImage component='img' src={IMAGES[index]} />
+            <MainImage component='img' src={IMAGES[index]} />
             <NextIconButton onClick={()=>{switchImage('next')}}> 
                 <Box component='img' src="./assets/icon-next.svg" width='10px' height='12px'/>
             </NextIconButton>
