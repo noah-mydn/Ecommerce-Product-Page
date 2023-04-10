@@ -36,8 +36,8 @@ Users should be able to:
 
 ### Screenshot
 
-![Desktop View](./assets/desktop-view.png)
-![Mobile View](./assets/mobile-view.png)
+![Desktop View](public/assets/desktop-view.png)
+![Mobile View](public/assets/mobile-view.png)
 
 ### Links
 
@@ -99,7 +99,7 @@ In terms of future development, It would be beneficial to add user authenticatio
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
+- Website - [Add your name here](https://mayyadanar.netlify.app)
+- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/noah-mydn)
+- Twitter - [@yourusername](https://www.twitter.com/noah_ydn)
 
