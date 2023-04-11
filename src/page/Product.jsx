@@ -50,9 +50,9 @@ const ImageContainer = styled(Box) ({
     });
 
 const ImageSlider = styled(Box)({
-  display:smallScreen ? 'block' : mediumScreen ? 'block' : 'none',
-  width:mediumScreen ? '100%' : '',
-  height:'320px',
+  display: mediumScreen ? 'block' : 'none',
+  width:'100%',
+  height:smallScreen ? '320px' : mediumScreen ? '420px' : '',
   objectFit:'cover',
 });
 
@@ -108,9 +108,9 @@ const handleAddToCart = () => {
                       }
                     }}
                     >
-                        {IMAGES.map((image)=> {
+                        {IMAGES.map((image,index)=> {
                           return (
-                            <ImageSlider component='img' src={image} key={image}/>
+                            <ImageSlider component='img' src={image.mainImage} key={image.mainImage} id={index}/>
                           )
                           
                         })}
