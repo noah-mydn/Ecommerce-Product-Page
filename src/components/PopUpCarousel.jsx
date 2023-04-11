@@ -1,18 +1,10 @@
 import { Backdrop, Box, Dialog, IconButton } from '@mui/material';
-import { IMAGES, thumbnail_images } from '../data/data';
+import { IMAGES } from '../data/data';
 import styled from '@emotion/styled';
 import { theme } from '../theme/theme';
 import React from 'react';
 
-export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImageId, setActiveImageId,showActiveImage}) => {
-
-    const thumbnails = [
-        "<img src='./assets/image-product-1-thumbnail.jpg'",
-        "<img src='./assets/image-product-2-thumbnail.jpg'",
-        "<img src='./assets/image-product-3-thumbnail.jpg'",
-        "<img src='./assets/image-product-4-thumbnail.jpg'"
-    ]
-
+export const PopUpCarousel = ({ open, handleModalClose,currentActiveImg, setCurrentActiveImg}) => {
     //Styled Dialog
     const CustomDialog = styled(Dialog)({
         margin:'0 auto',
@@ -69,29 +61,19 @@ export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImag
       const switchImage = (direction) => {
         let newIndex;
         if(direction === 'prev') {
-          newIndex = index === 0 ? IMAGES.length-1 : index-1;
+          newIndex = currentActiveImg === 0 ? IMAGES.length-1 : currentActiveImg-1;
         }
         else {
-          newIndex = index === IMAGES.length-1 ? 0 : index+1;
+          newIndex = currentActiveImg === IMAGES.length-1 ? 0 : currentActiveImg+1;
         }
-        setIndex(newIndex);
-        setActiveImageId(thumbnail_images[newIndex]);
+        setCurrentActiveImg(newIndex);
       };
-
-
-      //Adding border effect to active image
-      React.useEffect(() => {
-        const currentImage = document.getElementById(thumbnail_images[index]);
-        currentImage.classList.add('active-img');
-      }, [index]);
-      
 
   return (
     <>
       <Backdrop open={open} sx={{ zIndex: 100 }}>
         <CustomDialog
           aria-describedby='popup-dialog-for-large-image-view'
-          aria-aria-labelledby='popup-dialog-for-large-image-view'
           fullWidth='true'
           maxWidth='sm'
           open={open}
@@ -103,17 +85,17 @@ export const PopUpCarousel = ({ open, handleModalClose,index,setIndex,activeImag
             <PrevIconButton onClick={()=>{switchImage('prev')}}>
                 <Box component='img' src="./assets/icon-previous.svg" width='10px' height='12px'/>
             </PrevIconButton>
-            <MainImage component='img' src={IMAGES[index]} />
+            <MainImage component='img' src={IMAGES[currentActiveImg].mainImage} />
             <NextIconButton onClick={()=>{switchImage('next')}}> 
                 <Box component='img' src="./assets/icon-next.svg" width='10px' height='12px'/>
             </NextIconButton>
             <Box display='flex' justifyContent='center' alignItems='center'>
-            {thumbnail_images.map((img)=> {
+            {IMAGES.map((img,index)=> {
               return (
-                <ThumbnailImage component='img' src={img} 
-                key={img} id={img} 
-                className={activeImageId === img ? 'active-img' : ''}
-                onClick={(e)=>{showActiveImage(e)}}/>
+                <ThumbnailImage component='img' src={img.thumbnail} 
+                key={img.thumbnail}
+                className={currentActiveImg === index ? 'active-img' : ''}
+                onClick={() => setCurrentActiveImg(index)}/>
               )
             })}
           </Box>

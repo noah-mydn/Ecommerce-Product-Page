@@ -42,7 +42,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [https://github.com/noah-mydn/Ecommerce-Product-Page](https://github.com/noah-mydn/Ecommerce-Product-Page)
-- Live Site URL: https://ecommerce-product-noah.netlify.app](https://ecommerce-product-noah.netlify.app)
+- Live Site URL: [https://ecommerce-product-noah.netlify.app](https://ecommerce-product-noah.netlify.app)
 
 ## My process
 

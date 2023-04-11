@@ -9,7 +9,7 @@ import React from 'react';
 function App() {
 
   //AddToCart State
-  const [quantity, setQuantity] = React.useState(1);
+  const [quantity, setQuantity] = React.useState(0);
   const [addedToCart, setAddedToCart] = React.useState(null);
 
   //ScreenSize verification

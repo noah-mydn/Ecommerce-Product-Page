@@ -1,17 +1,15 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material'
 import Carousel from 'react-material-ui-carousel'
-import React, { useRef } from 'react'
+import React from 'react'
 import { ProductDescription } from '../components/ProductDescription';
 import { PopUpCarousel } from '../components/PopUpCarousel';
-import { IMAGES, thumbnail_images } from '../data/data';
+import { IMAGES } from '../data/data';
 
 export const Product = ({smallScreen, mediumScreen,quantity,setQuantity, setAddedToCart}) => {
 
-    const [index, setIndex] = React.useState(0); 
-   
+    const [currentActiveImg, setCurrentActiveImg] = React.useState(0);
     const [open, setOpen] = React.useState(false);
-    const [activeImageId, setActiveImageId] = React.useState(0);
 
 //Styled Component for UI
 const Container = styled(Box)  ({
@@ -62,16 +60,6 @@ const CustomCarousel = styled(Carousel) ({
   width:'100%',
 })
 
-
-//Displaying Clicked Active Image
-const showActiveImage = (event) => {
-  const activeSrc = event.target.src;
-  const activeId = event.target.id;
-  setActiveImageId(activeId);
-  const currentIndex = thumbnail_images.indexOf("."+activeSrc.substr(21));
-  setIndex(currentIndex);
-}
-
 const handleModalClose = () => {
   setOpen(false);
 }
@@ -94,19 +82,18 @@ const handleAddToCart = () => {
   setAddedToCart(quantity);
 }
 
-//Adding border effect to active image
-React.useEffect(()=>{
-  const currentImage = document.getElementById(thumbnail_images[activeImageId]);
-  currentImage.classList.add('active-img');
-},[]);
 
   return (
     <Container>
         <ImageContainer 
         id='product-main-images'>
-          <MainImage component='img' src={IMAGES[index]} onClick={handleModalOpen}/>
-          <PopUpCarousel open={open} handleModalClose={handleModalClose} activeImageId={activeImageId} setActiveImageId={setActiveImageId}
-          index={index} setIndex={setIndex} showActiveImage={showActiveImage}/>
+          <MainImage component='img' src={IMAGES[currentActiveImg].mainImage} onClick={handleModalOpen}/>
+
+          <PopUpCarousel 
+          open={open} 
+          handleModalClose={handleModalClose} 
+          currentActiveImg={currentActiveImg}
+          setCurrentActiveImg={setCurrentActiveImg}/>
           <CustomCarousel NextIcon={<img src='./assets/icon-next.svg' width='8px' height='10px'/>}
                     PrevIcon={<img src='./assets/icon-previous.svg' widht='8px' height='10px'/>}
                     indicators={false}
@@ -129,12 +116,12 @@ React.useEffect(()=>{
                         })}
           </CustomCarousel>
           <Box display={mediumScreen ? 'none': 'flex'} justifyContent='space-between' alignItems='center'>
-            {thumbnail_images.map((img)=> {
+            {IMAGES.map((img,index)=> {
               return (
-                <ThumbnailImage component='img' src={img} 
-                key={img} id={img} 
-                className={activeImageId === img ? 'active-img' : ''}
-                onClick={(e)=>{showActiveImage(e)}}/>
+                <ThumbnailImage component='img' src={img.thumbnail} 
+                key={img.thumbnail}
+                className={currentActiveImg === index ? 'active-img' : ''}
+                onClick={() => setCurrentActiveImg(index)}/>
               )
             })}
           </Box>
