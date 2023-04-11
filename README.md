@@ -99,7 +99,7 @@ In terms of future development, It would be beneficial to add user authenticatio
 
 ## Author
 
-- Website - [Add your name here](https://mayyadanar.netlify.app)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/noah-mydn)
-- Twitter - [@yourusername](https://www.twitter.com/noah_ydn)
+- Website - [May Yadanar](https://mayyadanar.netlify.app)
+- Frontend Mentor - [@noah-mydn](https://www.frontendmentor.io/profile/noah-mydn)
+- Twitter - [@noah_ydn](https://www.twitter.com/noah_ydn)
 
